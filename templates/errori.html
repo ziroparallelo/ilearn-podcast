@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{titolo}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type = "text/css" href="{{url_for('static', filename='style.css')}}">
+  </head>
+
+    <body>
+      <main>
+        <div class = "container" id ="contenitore_errori">
+          <div class = "row">
+            <div class = "col">
+              <h1>{{titolo}}</h1>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col">
+              <p>{{testo}}</p>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col">
+              <a href="{{url_for('home')}}">Home</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </body>
+</html>

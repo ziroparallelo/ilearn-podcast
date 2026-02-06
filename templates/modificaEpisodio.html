@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}MODFICA EPISODIO{% endblock %}
+
+{% block form %}
+<div class="container text-center" id = "container_form">
+    <div class="row justify-content-md-center">
+      <div class="col bg-light p-4 border rounded">
+      <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
+      <!-- il request.form lavora con il campo name-->
+        
+      <form action="/modificaEpisodio/titolo" method = "POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Titolo Episodio</label>
+          <input type="text" class="form-control" name="title" aria-describedby="Titolo del post" placeholder="{{episodio.Titolo}}" minlength="3" maxlength="30">
+          <div class="form-text">Lunghezza minima: 3 caratteri.<br>Lunghezza massima: 15 caratteri. </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="content" class="form-label">Breve Descrizione</label>
+          <textarea class="form-control" name="description" placeholder="{{episodio.Descrizione}}" rows="3" minlength="10"></textarea>
+          <div class="form-text">Lunghezza minima: 10 caratteri.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFileSm" class="form-label">File audio (.mp3 o .wav)</label>
+          <input class="form-control form-control-sm" id="formFileSm" type="file" name="fileaudio" accept=".mp3, .wav">
+          <div class="form-text">Carica un file il cui nome contiene la relativa estensione.</div>
+        </div>
+
+        <input type="hidden" id="custId" name="podcast_id" value="{{episodio.podcast_id}}">
+        <input type="hidden" id="custId" name="episodio_id" value="{{episodio.episodio_id}}">
+
+        <button type="submit" class="btn btn-primary">Modifica</button>
+      </form>
+      </div>
+    </div>
+</div>                   
+{% endblock %}

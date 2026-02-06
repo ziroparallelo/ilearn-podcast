@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}NUOVO PODCAST{% endblock %}
+
+{% block form %}
+<div class="container text-center" id = "container_form">
+    <div class="row justify-content-md-center">
+      <div class="col-9 bg-light p-4 border rounded">
+      <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
+      <!-- il request.form lavora con il campo name-->
+        
+      <form action="/nuovoPodcast" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Titolo podcast</label>
+          <input type="text" class="form-control" name="title" aria-describedby="Titolo del post" required minlength="3" maxlength="30" required>
+          <div class="form-text">3-30 caratteri</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="content" class="form-label">Breve Descrizione</label>
+          <textarea class="form-control" name="description" rows="3" required minlength="10" required></textarea>
+          <div class="form-text">almeno 10 caratteri</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFileSm" class="form-label">Immagine di copertina (.jpg, .jpeg, .png)</label>
+          <input class="form-control form-control-sm" id="formFileSm" type="file" name="immagine_podcast" accept=".jpg, .jpeg, .png" required>
+          <div class="form-text">Carica un file con estensione</div>
+        </div>
+
+        <select class="form-select" aria-label="Default select example" name="category">
+          <option selected>Categoria</option>
+          {% for categoria in categorie %}
+          <option value="{{categoria.lower()}}">{{categoria}}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-primary">Crea</button>
+      </form>
+      </div>
+    </div>
+  </div>        
+{% endblock %}

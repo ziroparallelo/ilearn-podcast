@@ -1,0 +1,13 @@
+Utenti:
+
+alessandro@gmail.com
+passwordsito
+Creatore
+
+utente2@gmail.com
+passwordsito
+Creatore
+
+ascoltatore@gmail.com
+passwordascoltatore
+Ascoltatore

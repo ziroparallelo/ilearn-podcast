@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block js %}<script defer src="{{ url_for('static', filename='home.js') }}"></script>{% endblock %}
+
+{% block title %}HOME{% endblock %}
+
+{% block filtri_categoria %}
+<li class="nav-item dropdown" id="filtri_categoria">
+    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Filtra per categoria
+    </a>
+    <ul class="dropdown-menu">
+       {% for categoria in categorie %}
+      <li><a class="dropdown-item" href="#" data-cat="{{categoria.lower()}}">{{categoria}}</a></li>
+      {% endfor %}
+    </ul>
+</li>
+{% endblock %}
+
+{% block podcast %}
+{% if podcasts %}
+{% for podcast in podcasts %}
+<article id = "container_podcast" data-categoria="{{podcast.Categoria}}">
+    <div class = "row">
+        <div class = "col" >
+            <div class = "row" id = "dati_del_podcast">
+                <div class = "col-lg-3 col-md-12">
+                    <a href = "{{url_for('podcast', podcast_id=podcast.podcast_id)}}"><h4>{{podcast.Titolo}}</h4></a>
+                    <h6>di <i>{{podcast.username}}</i></h6>
+                    <h6 id = "categoria">Categoria: {{podcast.categoria}}</h6>
+                </div>
+                <div class = "col-lg-6 col-md-12" id = "descrizione_serie">
+                    <p>{{podcast.Descrizione}}</p>
+                </div>
+                <div class="col-lg-3" id ="bottonipodcast">
+                    <a href="{{url_for('podcast', podcast_id=podcast.podcast_id)}}"><img class="postimg" src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione)}}" alt="Immagine del podcast con podcast_id {{podcast.podcast_id}}">
+                    </a>
+                </div>
+            </div>   
+        </div>
+    </div>                           
+</article>
+{% endfor %}
+
+{% else %}
+<h4>Non sono presenti podcast.</h4>
+{% endif %}
+
+{% endblock %}
+
+

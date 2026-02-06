@@ -1,0 +1,199 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#titolo {
+    color: black;
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+#searchbar {
+    margin-left: 3rem;
+    width: auto;
+}
+
+.container_header {
+    background-color: brown;
+    display: flex;
+    justify-content: center;
+}
+
+#titolo {
+    color: white;
+}
+
+article {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.container_navbar {
+    justify-content: center;
+    display: flex;
+    margin-top: 1rem;
+    border: solid;
+    border-color: brown;
+}
+
+#container_main {
+    display: flex;
+    justify-content: center;
+}
+
+#container_podcast {
+    text-align: center;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    border-bottom: solid;
+    border-color: brown;
+}
+
+.container_podcast_singolo {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+#episodi {
+    justify-content: center;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+#bottonipodcast {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dati_del_podcast {
+    align-items: center;
+}
+
+#descrizione_serie {
+    margin-top: 1rem;
+    border-right: solid;
+    border-left: solid;
+    border-width: thin;
+    border-color: brown;
+    text-align: center;
+}
+
+.descrizione_episodio {
+    text-align: center;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+
+#audio_episodio {
+    padding-top: 1rem;
+}
+
+footer {
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+}
+
+#contenitore_commenti {
+    align-items: center;
+    text-align: left;
+    justify-content: center;
+}
+
+#commento {
+    padding-top: 0.4rem;
+}
+
+#contenitore_commenti_singolo_episodio {
+    align-items: center;
+    text-align: left;
+    justify-content: center;
+    border-top: solid;
+    border-color: brown;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+#commenti_vecchi {
+    margin-bottom: 1rem;
+}
+
+.contenitore_episodio {
+    border-top: solid;
+    border-color: brown;
+    border-width: thin;
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+
+.contenitore_episodio_singolo {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+
+.postimg {
+    width: fit-content;
+    max-width: 11rem;
+    border-radius: 10px;
+}
+
+#infoUtente {
+    padding-top: 2rem;
+}
+
+#bottone_cancella_episodio {
+    padding: 4px;
+    font-size: 13px;
+}
+
+#bottone_modifica_episodio {
+    padding: 4px;
+    font-size: 13px;
+    margin-right: 1rem;
+}
+
+#commenti {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.hide {
+    display: none;
+}
+
+.nav-link {
+    color: black;
+    background-color: white;
+}
+
+#contenitore_commenti {
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+#link_singolo_episodio {
+    color: black;
+}
+
+#contenitore_errori {
+    margin-top: 5rem;
+    justify-content: center;
+    text-align: center;
+}
+
+#immagine_podcast {
+    display: flex;
+    justify-content: center;
+}
+
+/* FORM */
+#container_form {
+    padding-top: 2rem;
+}

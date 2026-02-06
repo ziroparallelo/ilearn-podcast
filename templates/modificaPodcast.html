@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}MODIFICA PODCAST{% endblock %}
+
+{% block form %}
+<div class="container text-center" id = "container_form">
+    <div class="row justify-content-md-center">
+      <div class="col bg-light p-4 border rounded">
+      <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
+      <!-- il request.form lavora con il campo name-->
+        
+      <form action="/modificaPodcast/podcast_id" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Titolo</label>
+          <input type="text" class="form-control" name="title" aria-describedby="Titolo del post" placeholder="{{podcast.Titolo}}" minlength="3" maxlength="30">
+        </div>
+
+        <div class="mb-3">
+          <label for="content" class="form-label">Descrizione</label>
+          <textarea class="form-control" name="description" placeholder="{{podcast.Descrizione}}" rows="3" minlength="10"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFileSm" class="form-label">Immagine di copertina</label>
+          <input class="form-control form-control-sm" id="formFileSm" type="file" name="immagine_podcast" accept=".jpg, .jpeg, .png">
+          <div class="form-text">Carica un file con estensione</div>
+        </div>
+
+        <select class="form-select" aria-label="Default select example" name="category">
+          <option selected>Categoria</option>
+          {% for categoria in categorie %}
+          <option value="{{categoria.lower()}}">{{categoria}}</option>
+          {% endfor %}
+        </select>
+
+        <input type="hidden" id="custId" name="podcast_id" value="{{podcast.podcast_id}}">
+
+        <button type="submit" class="btn btn-primary">Salva modifiche</button>
+      </form>
+      </div>
+    </div>
+  </div>                   
+{% endblock %}

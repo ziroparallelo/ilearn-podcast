@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}LOGIN{% endblock %}
+
+{% block form %}
+<div class="container text-center" id="container_form">
+    <div class="row justify-content-md-center">
+        <div class="col-9 bg-light p-4 border rounded">
+            <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
+            <!-- il request.form lavora con il campo name-->
+            <form action="/login" method="POST">
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" name="email"
+                        required>
+                    <div id="emailHelp" class="form-text">Non condivideremo la tua email con nessuno.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="passwordInput" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-outline-primary">Accedi</button>
+                <a class="btn btn-outline-primary" href="{{url_for('signup')}}" role="button">Registrati</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

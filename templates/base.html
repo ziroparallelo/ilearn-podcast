@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+    <script defer src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    {% block js %}{% endblock %}
+</head>
+
+<!-- UN CONTENITORE GENERALE CONTIENE DUE ROW: UNA PER IL BODY E UNA PER IL FOOTER-->
+<div class="container text-center" id="container_body">
+
+    <body>
+        <div class="container_header">
+            <header>
+                <div class="col" id="titolo">
+                    ILearn
+                </div>
+            </header>
+        </div>
+
+        <!-- NAVBAR -->
+        <div class="container_navbar">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{url_for('home')}}">Home</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {% if isactive %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block profilo_active %}{% endblock %}" aria-current="page"
+                                    href="{{url_for('profilo', user_id=user.ID)}}" id="nav_link">Profilo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{url_for('logout')}}"
+                                    id="nav_link">Logout</a>
+                            </li>
+                            {% if user.Tipo == 1 %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{url_for('nuovoPodcast')}}"
+                                    id="nav_link">Nuovo podcast</a>
+                            </li>
+                            {% endif %}
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{url_for('login')}}"
+                                    id="nav_link">Accedi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{url_for('signup')}}"
+                                    id="nav_link">Registrati</a>
+                            </li>
+                            {% endif %}
+
+                            {% block filtri_categoria %}{% endblock %}
+
+                            {% block bottone_ricerca %}{% endblock %}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="row">
+
+            {% block informazioni_utente %}{% endblock %}
+
+            <!-- MAIN -->
+            <div class="col">
+                <main>
+                    <div class="row" id="container_main">
+                        <div class="col-9">
+                            {% block podcast %}{% endblock %}
+
+                            {% block episodi %}{% endblock %}
+
+                            {% block form %}{% endblock %}
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="row">
+            <div class="col">
+                <footer>
+                    Politecnico di Torino - A.A. 2022/2023
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
+    </body>
+</div>
+
+</html>

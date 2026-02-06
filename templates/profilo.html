@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}PROFILO{% endblock %}
+
+{% block profilo_active %}active{% endblock %}
+
+
+{% block informazioni_utente %}
+<div id="infoUtente">
+    <div class="card">
+        <div class="card-header">
+            <strong>UTENTE</strong>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><u>Email</u>: {{user.Email}}</li>
+            <li class="list-group-item"><u>Username</u>: {{user.Username}}</li>
+            <li class="list-group-item"><u>Tipo utente</u>:
+                {% if user.Tipo == 1 %}
+                creator
+                {% else %}
+                ascoltatore
+                {% endif %}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block podcast %}
+{% for podcast in podcast_seguiti %}
+<article id="container_podcast">
+    <div class="row">
+        <div class="col">
+            <div class="row" id="dati_del_podcast">
+                <div class="col-lg-3 col-md-12">
+                    <a href="{{url_for('podcast', podcast_id=podcast.podcast_id)}}">
+                        <h4>{{podcast.Titolo}}</h4>
+                    </a>
+                    <h6>di <i>{{podcast.username}}</i></h6>
+                    <h6 id="categoria">Categoria: {{podcast.categoria}}</h6>
+                </div>
+                <div class="col-lg-6 col-md-12" id="descrizione_serie">
+                    <p>{{podcast.Descrizione}}</p>
+                </div>
+                <div class="col-lg-3" id="bottonipodcast">
+                    <a href="{{url_for('podcast', podcast_id=podcast.podcast_id)}}"><img class="postimg"
+                            src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione)}}"
+                            alt="Immagine del podcast con podcast_id {{podcast.podcast_id}}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+{% endfor %}
+{% endblock %}

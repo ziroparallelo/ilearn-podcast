@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}SIGNUP{% endblock %}
+
+{% block form %}
+<div class="container text-center" id = "container_form">
+    <div class="row justify-content-md-center">
+      <div class="col-9 bg-light p-4 border rounded"> 
+          <form action="/signup" method="POST">
+              <div class="mb-3">
+                <label for="emailInput" class="form-label">Email</label>
+                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+              </div>
+
+              <div class="mb-3">
+                <label for="emailInput" class="form-label">Username</label>
+                <input class="form-control" type="text" aria-label="default input example" name = "username" required minlength="3" >
+                <div class="form-text">almeno 3 caratteri</div>
+              </div>
+              
+              <div class="mb-3">
+                  <label for="passwordInput" class="form-label">Password</label>
+                  <input type="password" class="form-control" name="password" id="passwordInput" required pattern=".{8,}">
+                  <div class="form-text">almeno 8 caratteri</div>
+              </div>
+
+              <div class="form-check" id = "check_AscoltatoreCreator">
+                <input class="form-check-input" type="radio" name="usertype" id="flexRadioDefault1" value="0" checked required>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  &nbsp Ascoltatore
+                </label>
+              </div>
+              <div class="form-check" id = "check_AscoltatoreCreator">
+                <input class="form-check-input" type="radio" name="usertype" id="flexRadioDefault2" value="1" checked required>
+                <label class="form-check-label" for="flexRadioDefault2">
+                &nbsp Creator
+                </label>
+              </div>
+              <div id = "bottone_registrati">
+                <button id = "bottone registrati" type="submit" class="btn btn-primary">Registrati</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div> 
+{% endblock %}

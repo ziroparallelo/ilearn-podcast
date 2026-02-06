@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{episodio.Titolo}}{% endblock %}
+
+{% block episodi %}
+<!-- episodio selezionato -->
+<div class = "row" id = "contenitore_episodio">
+    <div class = "col">
+        <div class = "row">
+            <div class="col-3">
+                <div class = "row">
+                    <h5><strong>{{episodio.Titolo}}</strong></h5>
+                </div>
+                <div class = "row">
+                    <h6>{{episodio.DataCreazione}}</h6>
+                </div>  
+            </div>
+
+            <div class = "col-9">
+                <div class = "row">
+                    <h6>{{episodio.Descrizione}}</h6>
+                </div>
+                <div class = "row">
+                    <audio src="{{url_for('static', filename='episodio'+ episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione)}}" controls></audio>
+                </div>   
+            </div>  
+        </div>
+
+        <div class = "row" id = "contenitore_commenti">
+            <div class="col-8">
+            <p><br><u>Modifica commento</u></p>
+            <div class="row" id = "commenti_vecchi">
+                <div class="col-11">
+                    <h6><b>Tu</b> - {{commento.Testo}}</h6>
+                </div>
+            </div>
+            <div class = "row">
+                <div class = "col">
+                    <form action="/modificaCommento/commento_id" method="POST" enctype="multipart/form-data">
+                        <input class="form-control" type="text" id = "scrittura_commento" placeholder="Modifica commento: {{commento.Testo}}" aria-label="default input example" name = "testo_commento">
+                        <input type="hidden" id="custId" name="commento_id" value="{{commento.commento_id}}">
+                        <input type="hidden" id="custId" name="episodio_id" value="{{commento.episodio_id}}">
+                    </form> 
+                </div>
+            </div>    
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+{% endblock %}

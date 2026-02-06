@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}NUOVO EPISODIO{% endblock %}
+
+{% block form %}
+<div class="container text-center" id = "container_form">
+    <div class="row justify-content-md-center">              
+      <div class="col bg-light p-4 border rounded">
+      <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
+      <!-- il request.form lavora con il campo name-->
+        
+      <form action="/nuovoEpisodio/podcast_id" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Titolo Episodio</label>
+          <input type="text" class="form-control" name="title" aria-describedby="Titolo del post" required minlength="3" maxlength="30" required>
+          <div class="form-text">3-30 caratteri<br></div>
+        </div>
+
+        <div class="mb-3">
+          <label for="content" class="form-label">Breve Descrizione</label>
+          <textarea class="form-control" name="description" rows="3" required minlength="10" required></textarea>
+          <div class="form-text">almeno 10 caratteri</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFileSm" class="form-label">File audio(.mp3 o .wav)</label>
+          <input class="form-control form-control-sm" id="formFileSm" type="file" name="fileaudio" accept=".mp3, .wav" required>
+          <div class="form-text">carica un file con estensione</div>
+        </div>
+        
+        <input type="hidden" id="custId" name="podcast_id" value="{{podcast_id}}">
+
+        <button type="submit" class="btn btn-primary">Crea</button>
+      </form>
+      </div>
+    </div>
+  </div>                   
+{% endblock %}

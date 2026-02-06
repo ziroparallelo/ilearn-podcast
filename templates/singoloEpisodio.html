@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}{{episodio.Titolo}}{% endblock %}
+
+{% block episodi %}
+<div class="contenitore_episodio_singolo">
+    <div class = "row">
+        <div class = "col-lg-3">
+            <div class="row">
+                <a href = "{{url_for('singoloEpisodio', episodio_id=episodio.episodio_id)}}" id = "link_singolo_episodio">
+                    <h5 class = "titolo_episodio">{{episodio.Titolo}}</h5>
+                </a>
+            </div>
+            <div class="row">
+                <h6>{{episodio.DataCreazione}}</h6>
+            </div>
+            
+        </div>
+        <div class = "col-lg-6">
+            <h6 class = "descrizione_episodio">{{episodio.Descrizione}}</h6>
+        </div>
+        <div class = "col-lg-3">
+            {% if isactive %}
+                {% if user.Tipo == 1 %}
+                    {% if podcast.utente_id == user.ID %}
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                            <a href="{{url_for('modificaEpisodio', titolo=episodio.Titolo)}}"  id = "bottone_modifica_episodio"><button type="button" class="btn btn-warning btn-xs">Modifica</button></a>
+                            <a href="{{url_for('cancellaEpisodio', titolo=episodio.Titolo)}}" id = "bottone_cancella_episodio"><button type="button" class="btn btn-danger btn-xs">Elimina</button></a>                            </div>        
+                    {% endif %}
+                {% endif %}   
+            {% else %}
+                <a href="{{url_for('login')}}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Accedi per avere più funzionalità!
+                    </button>
+                </a>                
+            {% endif %}
+        </div>
+    </div>
+    <div class="row" id = "audio_episodio">
+        <div class = "col">
+            <audio src="{{url_for('static', filename='episodio'+ episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione)}}" controls></audio>
+        </div>
+    </div>
+        
+    <div class = "row" id = "contenitore_commenti_singolo_episodio">
+        <div class="col-8">
+            {% if isactive %}
+            <form action="/nuovoCommento" method="POST" enctype="multipart/form-data">
+                <input class="form-control" type="text" id = "scrittura_commento" placeholder="Nuovo commento" aria-label="default input example" name = "testo_commento">
+                <input type="hidden" id="custId" name="episodio_id" value="{{episodio.episodio_id}}">
+                <input type="hidden" id="custId" name="podcast_id" value="{{episodio.podcast_id}}">
+            </form>
+        {% endif %}
+        <p><br><u>Commenti passati</u></p>
+            {% if commenti %}
+                {% for commento in commenti %}
+                <div class="row" id = "commenti_vecchi">
+                    <div class="col-1">
+                        {% if isactive %}
+                        {% if commento.utente_id == user.ID %}
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{url_for('modificaCommento', commento_id=commento.commento_id)}}">modifica</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('cancellaCommento', commento_id=commento.commento_id)}}">cancella</a></li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="col-11" id = "commento">
+                        <h6><b>{{commento.Username}}</b> - {{commento.Testo}}</h6>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <h6><b>Nessun commento</b></h6>
+            {% endif %}
+        </div>
+    </div>
+</div>       
+{% endblock %}
