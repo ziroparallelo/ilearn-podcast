@@ -855,7 +855,16 @@ a:hover {
 .category-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     animation: icon-float 3s ease-in-out infinite;
 }
 
@@ -954,6 +963,53 @@ a:hover {
 .category-altro .category-stat-number { color: #f472b6; }
 .category-altro .badge-category { background: linear-gradient(135deg, #db2777, #f472b6); }
 .category-altro .glass-card:hover { border-color: rgba(244, 114, 182, 0.4); box-shadow: 0 16px 48px rgba(219, 39, 119, 0.15); }
+
+/* Category pill navigation — colored active states */
+.cat-pill {
+    gap: 0.35rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.cat-pill-cucina.active,
+.cat-pill-cucina:hover {
+    background: linear-gradient(135deg, #ea580c, #fb923c) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 20px rgba(234, 88, 12, 0.3) !important;
+}
+
+.cat-pill-scienza.active,
+.cat-pill-scienza:hover {
+    background: linear-gradient(135deg, #2563eb, #60a5fa) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3) !important;
+}
+
+.cat-pill-sport.active,
+.cat-pill-sport:hover {
+    background: linear-gradient(135deg, #16a34a, #4ade80) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 20px rgba(22, 163, 74, 0.3) !important;
+}
+
+.cat-pill-tecnologia.active,
+.cat-pill-tecnologia:hover {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3) !important;
+}
+
+.cat-pill-altro.active,
+.cat-pill-altro:hover {
+    background: linear-gradient(135deg, #db2777, #f472b6) !important;
+    color: white !important;
+    border-color: transparent !important;
+    box-shadow: 0 0 20px rgba(219, 39, 119, 0.3) !important;
+}
 
 /* --- Responsive --- */
 @media (max-width: 991.98px) {

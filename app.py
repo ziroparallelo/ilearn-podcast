@@ -42,15 +42,16 @@ def categoria(nome_categoria):
 
     nome_display = categorie_valide[nome_categoria.lower()]
     podcasts = db_interaction.get_podcasts_by_categoria(nome_categoria.lower())
+    categorie = ['Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
 
     if current_user.is_authenticated:
         isactive = True
         userid = current_user.get_id()
         user = db_interaction.get_user_by_id(userid)
-        return render_template('categoria.html', podcasts=podcasts, user=user, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower())
+        return render_template('categoria.html', podcasts=podcasts, user=user, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower(), categorie=categorie)
     else:
         isactive = False
-        return render_template('categoria.html', podcasts=podcasts, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower())
+        return render_template('categoria.html', podcasts=podcasts, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower(), categorie=categorie)
 
 @app.route('/profilo/<int:user_id>')
 @login_required

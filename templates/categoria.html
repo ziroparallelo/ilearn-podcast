@@ -5,24 +5,24 @@
 {% block hero %}
 <section class="category-hero category-{{ categoria_slug }}" id="category-page" data-category="{{ categoria_slug }}">
     <div id="cat-particles"></div>
-    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-        <div class="category-icon">
+    <div class="hero-content text-center" data-aos="fade-up" data-aos-duration="1000">
+        <div class="category-icon mx-auto">
             {% if categoria_slug == 'cucina' %}
-            <i class="bi bi-egg-fried"></i>
+            <i class="bi bi-fire"></i>
             {% elif categoria_slug == 'scienza' %}
-            <i class="bi bi-rocket-takeoff"></i>
+            <i class="bi bi-rocket-takeoff-fill"></i>
             {% elif categoria_slug == 'sport' %}
-            <i class="bi bi-trophy"></i>
+            <i class="bi bi-trophy-fill"></i>
             {% elif categoria_slug == 'tecnologia' %}
-            <i class="bi bi-cpu"></i>
+            <i class="bi bi-motherboard-fill"></i>
             {% elif categoria_slug == 'altro' %}
-            <i class="bi bi-compass"></i>
+            <i class="bi bi-stars"></i>
             {% endif %}
         </div>
         <h1 class="hero-title">
             <span class="text-gradient">{{ categoria }}</span>
         </h1>
-        <p class="hero-subtitle">
+        <p class="hero-subtitle mx-auto">
             {% if categoria_slug == 'cucina' %}
             Ricette, tradizioni culinarie e segreti degli chef. Scopri il gusto dell'Italia e del mondo.
             {% elif categoria_slug == 'scienza' %}
@@ -35,24 +35,37 @@
             Filosofia, viaggi, cultura e tutto cio' che non rientra nelle categorie classiche.
             {% endif %}
         </p>
-        <div class="category-stats" data-aos="fade-up" data-aos-delay="200">
+        <div class="category-stats mx-auto" data-aos="fade-up" data-aos-delay="200">
             <div class="category-stat">
                 <div class="category-stat-number">{{ podcasts|length }}</div>
                 <div class="category-stat-label">Podcast</div>
             </div>
-        </div>
-        <div class="mt-4" data-aos="fade-up" data-aos-delay="400">
-            <a href="{{ url_for('home') }}" class="btn btn-glass">
-                <i class="bi bi-grid-3x3-gap"></i> Tutte le categorie
-            </a>
         </div>
     </div>
 </section>
 {% endblock %}
 
 {% block content %}
+<!-- Category Pill Navigation -->
+<div class="pill-filter-container category-{{ categoria_slug }}" data-aos="fade-up">
+    <a href="{{ url_for('home') }}" class="pill-filter cat-pill">
+        <i class="bi bi-grid-3x3-gap"></i> Tutte
+    </a>
+    {% for cat in categorie %}
+    <a href="{{ url_for('categoria', nome_categoria=cat.lower()) }}"
+       class="pill-filter cat-pill cat-pill-{{ cat.lower() }} {% if cat.lower() == categoria_slug %}active{% endif %}">
+        {% if cat.lower() == 'cucina' %}<i class="bi bi-fire"></i>
+        {% elif cat.lower() == 'scienza' %}<i class="bi bi-rocket-takeoff-fill"></i>
+        {% elif cat.lower() == 'sport' %}<i class="bi bi-trophy-fill"></i>
+        {% elif cat.lower() == 'tecnologia' %}<i class="bi bi-motherboard-fill"></i>
+        {% elif cat.lower() == 'altro' %}<i class="bi bi-stars"></i>
+        {% endif %} {{ cat }}
+    </a>
+    {% endfor %}
+</div>
+
 {% if podcasts %}
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-4 card-grid category-{{ categoria_slug }}">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 pb-5 card-grid category-{{ categoria_slug }} justify-content-center">
     {% for podcast in podcasts %}
     <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 150 }}">
         <article class="glass-card">
