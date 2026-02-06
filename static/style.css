@@ -806,37 +806,154 @@ a:hover {
 }
 
 /* --- Category Pages --- */
+
+/* Category hero: full background image with dark overlay */
 .category-hero {
-    padding-bottom: 3rem;
+    position: relative;
+    padding: 6rem 0 4rem;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.category-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.category-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, var(--bg-primary) 0%, transparent 100%);
+    z-index: 1;
+}
+
+.category-hero .hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.category-hero #cat-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
 .category-icon {
-    font-size: 3.5rem;
+    font-size: 4rem;
     margin-bottom: 1rem;
-    position: relative;
+    display: inline-block;
+    animation: icon-float 3s ease-in-out infinite;
 }
 
-.category-cucina .category-icon { color: #f97316; }
-.category-scienza .category-icon { color: #3b82f6; }
-.category-sport .category-icon { color: #22c55e; }
-.category-tecnologia .category-icon { color: #8b5cf6; }
-.category-altro .category-icon { color: #ec4899; }
+@keyframes icon-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
 
-.category-cucina .hero-section::before {
-    background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
+.category-hero .hero-title {
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
-.category-scienza .hero-section::before {
-    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+
+.category-hero .hero-subtitle {
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 650px;
 }
-.category-sport .hero-section::before {
-    background: radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.08) 0%, transparent 60%);
+
+.category-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1.5rem;
 }
-.category-tecnologia .hero-section::before {
-    background: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%);
+
+.category-stat {
+    text-align: center;
 }
-.category-altro .hero-section::before {
-    background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.08) 0%, transparent 60%);
+
+.category-stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
 }
+
+.category-stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 0.25rem;
+}
+
+/* Per-category backgrounds and colors */
+.category-cucina {
+    background-image: url('/static/hero-cucina.jpeg');
+}
+.category-cucina::before {
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
+}
+.category-cucina .category-icon { color: #fb923c; filter: drop-shadow(0 0 20px rgba(251, 146, 60, 0.5)); }
+.category-cucina .category-stat-number { color: #fb923c; }
+.category-cucina .badge-category { background: linear-gradient(135deg, #ea580c, #fb923c); }
+.category-cucina .glass-card:hover { border-color: rgba(251, 146, 60, 0.4); box-shadow: 0 16px 48px rgba(234, 88, 12, 0.15); }
+
+.category-scienza {
+    background-image: url('/static/hero-scienza.jpeg');
+}
+.category-scienza::before {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
+}
+.category-scienza .category-icon { color: #60a5fa; filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5)); }
+.category-scienza .category-stat-number { color: #60a5fa; }
+.category-scienza .badge-category { background: linear-gradient(135deg, #2563eb, #60a5fa); }
+.category-scienza .glass-card:hover { border-color: rgba(96, 165, 250, 0.4); box-shadow: 0 16px 48px rgba(37, 99, 235, 0.15); }
+
+.category-sport {
+    background-image: url('/static/hero-sport.jpeg');
+}
+.category-sport::before {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
+}
+.category-sport .category-icon { color: #4ade80; filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.5)); }
+.category-sport .category-stat-number { color: #4ade80; }
+.category-sport .badge-category { background: linear-gradient(135deg, #16a34a, #4ade80); }
+.category-sport .glass-card:hover { border-color: rgba(74, 222, 128, 0.4); box-shadow: 0 16px 48px rgba(22, 163, 74, 0.15); }
+
+.category-tecnologia {
+    background-image: url('/static/hero-tecnologia.jpeg');
+}
+.category-tecnologia::before {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
+}
+.category-tecnologia .category-icon { color: #a78bfa; filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.5)); }
+.category-tecnologia .category-stat-number { color: #a78bfa; }
+.category-tecnologia .badge-category { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+.category-tecnologia .glass-card:hover { border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 16px 48px rgba(124, 58, 237, 0.15); }
+
+.category-altro {
+    background-image: url('/static/hero-altro.jpeg');
+}
+.category-altro::before {
+    background: linear-gradient(135deg, rgba(219, 39, 119, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
+}
+.category-altro .category-icon { color: #f472b6; filter: drop-shadow(0 0 20px rgba(244, 114, 182, 0.5)); }
+.category-altro .category-stat-number { color: #f472b6; }
+.category-altro .badge-category { background: linear-gradient(135deg, #db2777, #f472b6); }
+.category-altro .glass-card:hover { border-color: rgba(244, 114, 182, 0.4); box-shadow: 0 16px 48px rgba(219, 39, 119, 0.15); }
 
 /* --- Responsive --- */
 @media (max-width: 991.98px) {

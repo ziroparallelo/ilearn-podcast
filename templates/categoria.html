@@ -3,8 +3,9 @@
 {% block title %}{{ categoria }} — ILearn{% endblock %}
 
 {% block hero %}
-<section class="hero-section category-hero category-{{ categoria_slug }}">
-    <div class="hero-content">
+<section class="category-hero category-{{ categoria_slug }}" id="category-page" data-category="{{ categoria_slug }}">
+    <div id="cat-particles"></div>
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
         <div class="category-icon">
             {% if categoria_slug == 'cucina' %}
             <i class="bi bi-egg-fried"></i>
@@ -18,7 +19,9 @@
             <i class="bi bi-compass"></i>
             {% endif %}
         </div>
-        <h1 class="hero-title"><span class="text-gradient">{{ categoria }}</span></h1>
+        <h1 class="hero-title">
+            <span class="text-gradient">{{ categoria }}</span>
+        </h1>
         <p class="hero-subtitle">
             {% if categoria_slug == 'cucina' %}
             Ricette, tradizioni culinarie e segreti degli chef. Scopri il gusto dell'Italia e del mondo.
@@ -32,18 +35,26 @@
             Filosofia, viaggi, cultura e tutto cio' che non rientra nelle categorie classiche.
             {% endif %}
         </p>
-        <a href="{{ url_for('home') }}" class="btn btn-glass mt-3">
-            <i class="bi bi-arrow-left"></i> Tutte le categorie
-        </a>
+        <div class="category-stats" data-aos="fade-up" data-aos-delay="200">
+            <div class="category-stat">
+                <div class="category-stat-number">{{ podcasts|length }}</div>
+                <div class="category-stat-label">Podcast</div>
+            </div>
+        </div>
+        <div class="mt-4" data-aos="fade-up" data-aos-delay="400">
+            <a href="{{ url_for('home') }}" class="btn btn-glass">
+                <i class="bi bi-grid-3x3-gap"></i> Tutte le categorie
+            </a>
+        </div>
     </div>
 </section>
 {% endblock %}
 
 {% block content %}
 {% if podcasts %}
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-4">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-4 card-grid category-{{ categoria_slug }}">
     {% for podcast in podcasts %}
-    <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+    <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 150 }}">
         <article class="glass-card">
             <div class="card-img-wrapper">
                 <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">
