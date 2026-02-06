@@ -923,11 +923,11 @@ a:hover {
     margin-top: 0.25rem;
 }
 
-/* Per-category backgrounds and colors */
-.category-cucina {
+/* Per-category backgrounds and colors — scoped to .category-hero only */
+.category-hero.category-cucina {
     background-image: url('/static/hero-cucina.jpeg');
 }
-.category-cucina::before {
+.category-hero.category-cucina::before {
     background: linear-gradient(135deg, rgba(234, 88, 12, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
 }
 .category-cucina .category-icon { color: #fb923c; filter: drop-shadow(0 0 20px rgba(251, 146, 60, 0.5)); }
@@ -935,10 +935,10 @@ a:hover {
 .category-cucina .badge-category { background: linear-gradient(135deg, #ea580c, #fb923c); }
 .category-cucina .glass-card:hover { border-color: rgba(251, 146, 60, 0.4); box-shadow: 0 16px 48px rgba(234, 88, 12, 0.15); }
 
-.category-scienza {
+.category-hero.category-scienza {
     background-image: url('/static/hero-scienza.jpeg');
 }
-.category-scienza::before {
+.category-hero.category-scienza::before {
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
 }
 .category-scienza .category-icon { color: #60a5fa; filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5)); }
@@ -946,10 +946,10 @@ a:hover {
 .category-scienza .badge-category { background: linear-gradient(135deg, #2563eb, #60a5fa); }
 .category-scienza .glass-card:hover { border-color: rgba(96, 165, 250, 0.4); box-shadow: 0 16px 48px rgba(37, 99, 235, 0.15); }
 
-.category-sport {
+.category-hero.category-sport {
     background-image: url('/static/hero-sport.jpeg');
 }
-.category-sport::before {
+.category-hero.category-sport::before {
     background: linear-gradient(135deg, rgba(22, 163, 74, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
 }
 .category-sport .category-icon { color: #4ade80; filter: drop-shadow(0 0 20px rgba(74, 222, 128, 0.5)); }
@@ -957,10 +957,10 @@ a:hover {
 .category-sport .badge-category { background: linear-gradient(135deg, #16a34a, #4ade80); }
 .category-sport .glass-card:hover { border-color: rgba(74, 222, 128, 0.4); box-shadow: 0 16px 48px rgba(22, 163, 74, 0.15); }
 
-.category-tecnologia {
+.category-hero.category-tecnologia {
     background-image: url('/static/hero-tecnologia.jpeg');
 }
-.category-tecnologia::before {
+.category-hero.category-tecnologia::before {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
 }
 .category-tecnologia .category-icon { color: #a78bfa; filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.5)); }
@@ -968,10 +968,10 @@ a:hover {
 .category-tecnologia .badge-category { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
 .category-tecnologia .glass-card:hover { border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 16px 48px rgba(124, 58, 237, 0.15); }
 
-.category-altro {
+.category-hero.category-altro {
     background-image: url('/static/hero-altro.jpeg');
 }
-.category-altro::before {
+.category-hero.category-altro::before {
     background: linear-gradient(135deg, rgba(219, 39, 119, 0.75) 0%, rgba(15, 15, 26, 0.85) 100%);
 }
 .category-altro .category-icon { color: #f472b6; filter: drop-shadow(0 0 20px rgba(244, 114, 182, 0.5)); }
