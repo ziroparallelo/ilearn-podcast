@@ -1,29 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}LOGIN{% endblock %}
+{% block title %}Accedi{% endblock %}
 
-{% block form %}
-<div class="container text-center" id="container_form">
-    <div class="row justify-content-md-center">
-        <div class="col-9 bg-light p-4 border rounded">
-            <!--TODO: inserire required, minkenght maxlenght min max type pattern-->
-            <!-- il request.form lavora con il campo name-->
-            <form action="/login" method="POST">
-                <div class="mb-3">
-                    <label for="emailInput" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" name="email"
-                        required>
-                    <div id="emailHelp" class="form-text">Non condivideremo la tua email con nessuno.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="passwordInput" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="passwordInput" name="password" required>
-                </div>
-
-                <button type="submit" class="btn btn-outline-primary">Accedi</button>
-                <a class="btn btn-outline-primary" href="{{url_for('signup')}}" role="button">Registrati</a>
-            </form>
+{% block content %}
+<div class="form-glass" data-aos="fade-up">
+    <h2 class="form-title"><i class="bi bi-box-arrow-in-right"></i> <span class="text-gradient">Accedi</span></h2>
+    <form action="/login" method="POST">
+        <div class="mb-3">
+            <label for="emailInput" class="form-label">Email</label>
+            <input type="email" class="form-control" id="emailInput" name="email" required placeholder="la-tua@email.com">
         </div>
-    </div>
+        <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="password" required placeholder="La tua password">
+        </div>
+        <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-gradient">Accedi</button>
+            <a class="btn btn-glass text-center" href="{{ url_for('signup') }}">Non hai un account? Registrati</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

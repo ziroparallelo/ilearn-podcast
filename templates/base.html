@@ -1,123 +1,150 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}ILearn{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- AOS.js -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 
     <script defer src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
     {% block js %}{% endblock %}
 </head>
 
-<!-- UN CONTENITORE GENERALE CONTIENE DUE ROW: UNA PER IL BODY E UNA PER IL FOOTER-->
-<div class="container text-center" id="container_body">
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-glass fixed-top">
+        <div class="container-xl">
+            <a class="navbar-brand brand-gradient" href="{{ url_for('home') }}">
+                <i class="bi bi-headphones"></i> ILearn
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarMain" aria-controls="navbarMain"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <body>
-        <div class="container_header">
-            <header>
-                <div class="col" id="titolo">
-                    ILearn
-                </div>
-            </header>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-1">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    {% if isactive %}
+                    <li class="nav-item">
+                        <a class="nav-link {% block profilo_active %}{% endblock %}" href="{{ url_for('profilo', user_id=user.ID) }}">
+                            <i class="bi bi-person-circle"></i> Profilo
+                        </a>
+                    </li>
+                    {% if user.Tipo == 1 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('nuovoPodcast') }}">
+                            <i class="bi bi-plus-circle"></i> Nuovo podcast
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">
+                            <i class="bi bi-box-arrow-in-right"></i> Accedi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('signup') }}">
+                            <i class="bi bi-person-plus"></i> Registrati
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <!-- NAVBAR -->
-        <div class="container_navbar">
-            <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{url_for('home')}}">Home</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            {% if isactive %}
-                            <li class="nav-item">
-                                <a class="nav-link {% block profilo_active %}{% endblock %}" aria-current="page"
-                                    href="{{url_for('profilo', user_id=user.ID)}}" id="nav_link">Profilo</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{url_for('logout')}}"
-                                    id="nav_link">Logout</a>
-                            </li>
-                            {% if user.Tipo == 1 %}
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{url_for('nuovoPodcast')}}"
-                                    id="nav_link">Nuovo podcast</a>
-                            </li>
-                            {% endif %}
-                            {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{url_for('login')}}"
-                                    id="nav_link">Accedi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{{url_for('signup')}}"
-                                    id="nav_link">Registrati</a>
-                            </li>
-                            {% endif %}
-
-                            {% block filtri_categoria %}{% endblock %}
-
-                            {% block bottone_ricerca %}{% endblock %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
+    <!-- FLASH MESSAGES -->
+    <div class="main-content">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="container-xl pt-3">
+            {% for category, message in messages %}
+            <div class="alert alert-dark-custom alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
         {% endif %}
         {% endwith %}
 
-        <div class="row">
+        <!-- HERO BLOCK -->
+        {% block hero %}{% endblock %}
 
-            {% block informazioni_utente %}{% endblock %}
+        <!-- MAIN CONTENT -->
+        <div class="container-xl">
+            {% block content %}{% endblock %}
 
-            <!-- MAIN -->
-            <div class="col">
-                <main>
-                    <div class="row" id="container_main">
-                        <div class="col-9">
-                            {% block podcast %}{% endblock %}
+            {% block podcast %}{% endblock %}
 
-                            {% block episodi %}{% endblock %}
+            {% block episodi %}{% endblock %}
 
-                            {% block form %}{% endblock %}
-                        </div>
-                    </div>
-                </main>
+            {% block form %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer-dark">
+        <div class="container-xl">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h6><i class="bi bi-headphones"></i> ILearn</h6>
+                    <p>La piattaforma di podcast per imparare, scoprire e condividere conoscenza.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Esplora</h6>
+                    <p><a href="{{ url_for('home') }}">Home</a></p>
+                    {% if isactive %}
+                    <p><a href="{{ url_for('profilo', user_id=user.ID) }}">Il mio profilo</a></p>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6>Info</h6>
+                    <p>Politecnico di Torino</p>
+                    <p>Introduzione alle Applicazioni Web</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2023 ILearn &mdash; Politecnico di Torino
             </div>
         </div>
+    </footer>
 
-        <!-- FOOTER -->
-        <div class="row">
-            <div class="col">
-                <footer>
-                    Politecnico di Torino - A.A. 2022/2023
-                </footer>
-            </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-            crossorigin="anonymous"></script>
-    </body>
-</div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- AOS.js -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <!-- Custom animations -->
+    <script src="{{ url_for('static', filename='animations.js') }}"></script>
+</body>
 
 </html>

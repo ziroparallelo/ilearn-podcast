@@ -1,46 +1,40 @@
 {% extends "base.html" %}
 
-{% block title %}SIGNUP{% endblock %}
+{% block title %}Registrati{% endblock %}
 
-{% block form %}
-<div class="container text-center" id = "container_form">
-    <div class="row justify-content-md-center">
-      <div class="col-9 bg-light p-4 border rounded"> 
-          <form action="/signup" method="POST">
-              <div class="mb-3">
-                <label for="emailInput" class="form-label">Email</label>
-                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-              </div>
-
-              <div class="mb-3">
-                <label for="emailInput" class="form-label">Username</label>
-                <input class="form-control" type="text" aria-label="default input example" name = "username" required minlength="3" >
-                <div class="form-text">almeno 3 caratteri</div>
-              </div>
-              
-              <div class="mb-3">
-                  <label for="passwordInput" class="form-label">Password</label>
-                  <input type="password" class="form-control" name="password" id="passwordInput" required pattern=".{8,}">
-                  <div class="form-text">almeno 8 caratteri</div>
-              </div>
-
-              <div class="form-check" id = "check_AscoltatoreCreator">
-                <input class="form-check-input" type="radio" name="usertype" id="flexRadioDefault1" value="0" checked required>
-                <label class="form-check-label" for="flexRadioDefault1">
-                  &nbsp Ascoltatore
-                </label>
-              </div>
-              <div class="form-check" id = "check_AscoltatoreCreator">
-                <input class="form-check-input" type="radio" name="usertype" id="flexRadioDefault2" value="1" checked required>
-                <label class="form-check-label" for="flexRadioDefault2">
-                &nbsp Creator
-                </label>
-              </div>
-              <div id = "bottone_registrati">
-                <button id = "bottone registrati" type="submit" class="btn btn-primary">Registrati</button>
-              </div>
-          </form>
-      </div>
-    </div>
-  </div> 
+{% block content %}
+<div class="form-glass" data-aos="fade-up">
+    <h2 class="form-title"><i class="bi bi-person-plus"></i> <span class="text-gradient">Registrati</span></h2>
+    <form action="/signup" method="POST">
+        <div class="mb-3">
+            <label for="emailInput" class="form-label">Email</label>
+            <input type="email" class="form-control" id="emailInput" name="email" required
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="la-tua@email.com">
+        </div>
+        <div class="mb-3">
+            <label for="usernameInput" class="form-label">Username</label>
+            <input type="text" class="form-control" id="usernameInput" name="username" required minlength="3" placeholder="Il tuo username">
+            <div class="form-text">Almeno 3 caratteri</div>
+        </div>
+        <div class="mb-3">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input type="password" class="form-control" id="passwordInput" name="password" required pattern=".{8,}" placeholder="Scegli una password">
+            <div class="form-text">Almeno 8 caratteri</div>
+        </div>
+        <div class="mb-4">
+            <label class="form-label d-block">Tipo utente</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="usertype" id="radioAscoltatore" value="0" checked required>
+                <label class="form-check-label" for="radioAscoltatore"><i class="bi bi-headphones"></i> Ascoltatore</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="usertype" id="radioCreator" value="1" required>
+                <label class="form-check-label" for="radioCreator"><i class="bi bi-mic-fill"></i> Creator</label>
+            </div>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-gradient">Registrati</button>
+        </div>
+    </form>
+</div>
 {% endblock %}

@@ -1,46 +1,30 @@
-'use strict;'
+'use strict';
 
-// const prova = document.querySelectorAll('.container_navbar > #navbar > .container-fluid > #navbarSupportedContent > ul > #filtri_categoria > ul > li > a');
+const pillFilters = document.querySelectorAll('.pill-filter');
+const cards = document.querySelectorAll('.card-grid .col');
 
-document.querySelectorAll('.container_navbar > #navbar > .container-fluid > #navbarSupportedContent > ul > #filtri_categoria > ul > li > a').forEach(link => {
-  link.addEventListener('click', e => {
-    console.log("evento scatenato")
-    e.preventDefault();
-    document.querySelectorAll('.container_navbar > #navbar > .container-fluid > #navbarSupportedContent > ul > #filtri_categoria > ul > li > a').forEach((link) => link.classList.remove('active'));
-    const filtro = e.target.dataset.cat;
-    //console.log(filtro)
-    const podcasts = document.querySelectorAll('article');
-    for (let podcast of podcasts) {
-      const categoria = podcast.dataset.categoria;
-      e.target.classList.add('active');
-      podcast.classList.add('hide');
+pillFilters.forEach(pill => {
+    pill.addEventListener('click', e => {
+        e.preventDefault();
 
-      if (filtro == 'cucina' && categoria == 'cucina') {
-        podcast.classList.remove('hide');
-      }
+        // Update active state
+        pillFilters.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
 
-      else if (filtro == 'scienza' && categoria == 'scienza') {
-        podcast.classList.remove('hide');
-      }
+        const filtro = pill.dataset.cat;
 
-      else if (filtro == 'sport' && categoria == 'sport') {
-        podcast.classList.remove('hide');
-      }
+        cards.forEach(card => {
+            const article = card.querySelector('article');
+            if (!article) return;
+            const categoria = article.dataset.categoria;
 
-      else if (filtro == 'tecnologia' && categoria == 'tecnologia') {
-        podcast.classList.remove('hide');
-      }
-
-      else if (filtro == 'altro' && categoria == 'altro') {
-        podcast.classList.remove('hide');
-      }
-
-      else if (filtro == 'tutte') {
-        podcast.classList.remove('hide');
-      }
-    }
-  });
+            if (filtro === 'tutte' || categoria === filtro) {
+                card.classList.remove('hiding');
+                setTimeout(() => card.classList.remove('hide'), 10);
+            } else {
+                card.classList.add('hiding');
+                setTimeout(() => card.classList.add('hide'), 300);
+            }
+        });
+    });
 });
-
-
-

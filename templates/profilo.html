@@ -1,55 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %}PROFILO{% endblock %}
+{% block title %}Profilo{% endblock %}
 
 {% block profilo_active %}active{% endblock %}
 
-
-{% block informazioni_utente %}
-<div id="infoUtente">
-    <div class="card">
-        <div class="card-header">
-            <strong>UTENTE</strong>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item"><u>Email</u>: {{user.Email}}</li>
-            <li class="list-group-item"><u>Username</u>: {{user.Username}}</li>
-            <li class="list-group-item"><u>Tipo utente</u>:
+{% block content %}
+<div class="py-4">
+    <!-- Profile Card -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-5 col-lg-4" data-aos="fade-up">
+            <div class="profile-card">
+                <div class="profile-avatar">{{ user.Username[0]|upper }}</div>
+                <h4 class="profile-username">{{ user.Username }}</h4>
+                <p class="profile-email">{{ user.Email }}</p>
                 {% if user.Tipo == 1 %}
-                creator
+                <span class="badge-creator"><i class="bi bi-mic-fill"></i> Creator</span>
                 {% else %}
-                ascoltatore
-                {% endif %}</li>
-        </ul>
-    </div>
-</div>
-{% endblock %}
-
-{% block podcast %}
-{% for podcast in podcast_seguiti %}
-<article id="container_podcast">
-    <div class="row">
-        <div class="col">
-            <div class="row" id="dati_del_podcast">
-                <div class="col-lg-3 col-md-12">
-                    <a href="{{url_for('podcast', podcast_id=podcast.podcast_id)}}">
-                        <h4>{{podcast.Titolo}}</h4>
-                    </a>
-                    <h6>di <i>{{podcast.username}}</i></h6>
-                    <h6 id="categoria">Categoria: {{podcast.categoria}}</h6>
-                </div>
-                <div class="col-lg-6 col-md-12" id="descrizione_serie">
-                    <p>{{podcast.Descrizione}}</p>
-                </div>
-                <div class="col-lg-3" id="bottonipodcast">
-                    <a href="{{url_for('podcast', podcast_id=podcast.podcast_id)}}"><img class="postimg"
-                            src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione)}}"
-                            alt="Immagine del podcast con podcast_id {{podcast.podcast_id}}">
-                    </a>
-                </div>
+                <span class="badge-listener"><i class="bi bi-headphones"></i> Ascoltatore</span>
+                {% endif %}
             </div>
         </div>
     </div>
-</article>
-{% endfor %}
+
+    <!-- Followed Podcasts -->
+    <h5 class="section-heading" data-aos="fade-up"><i class="bi bi-heart-fill" style="color: #ef4444;"></i> Podcast seguiti</h5>
+
+    {% if podcast_seguiti %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 pb-5">
+        {% for podcast in podcast_seguiti %}
+        <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+            <article class="glass-card">
+                <div class="card-img-wrapper">
+                    <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">
+                        <img class="card-img-top"
+                             src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione) }}"
+                             alt="Immagine del podcast {{ podcast.Titolo }}">
+                    </a>
+                </div>
+                <div class="card-body">
+                    <span class="badge-category mb-2">{{ podcast.categoria }}</span>
+                    <h5 class="card-title">
+                        <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">{{ podcast.Titolo }}</a>
+                    </h5>
+                    <p class="card-author"><i class="bi bi-person"></i> {{ podcast.username }}</p>
+                    <p class="card-text">{{ podcast.Descrizione[:100] }}{% if podcast.Descrizione|length > 100 %}...{% endif %}</p>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-4" data-aos="fade-up">
+        <p style="color: var(--text-muted);">Non stai seguendo nessun podcast.</p>
+        <a href="{{ url_for('home') }}" class="btn btn-gradient mt-2"><i class="bi bi-compass"></i> Esplora podcast</a>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
