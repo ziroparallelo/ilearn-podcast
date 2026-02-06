@@ -17,9 +17,20 @@
 {% block content %}
 <!-- Pill Filters -->
 <div class="pill-filter-container" data-aos="fade-up">
-    <a href="#" class="pill-filter active" data-cat="tutte">Tutte</a>
+    <a href="#" class="pill-filter cat-pill active" data-cat="tutte">
+        <i class="bi bi-grid-3x3-gap"></i> Tutte
+    </a>
     {% for categoria in categorie %}
-    <a href="{{ url_for('categoria', nome_categoria=categoria.lower()) }}" class="pill-filter" data-cat="{{ categoria.lower() }}">{{ categoria }}</a>
+    <a href="{{ url_for('categoria', nome_categoria=categoria.lower()) }}"
+       class="pill-filter cat-pill cat-pill-{{ categoria.lower() }}"
+       data-cat="{{ categoria.lower() }}">
+        {% if categoria.lower() == 'cucina' %}<i class="bi bi-fire"></i>
+        {% elif categoria.lower() == 'scienza' %}<i class="bi bi-rocket-takeoff-fill"></i>
+        {% elif categoria.lower() == 'sport' %}<i class="bi bi-trophy-fill"></i>
+        {% elif categoria.lower() == 'tecnologia' %}<i class="bi bi-motherboard-fill"></i>
+        {% elif categoria.lower() == 'altro' %}<i class="bi bi-stars"></i>
+        {% endif %} {{ categoria }}
+    </a>
     {% endfor %}
 </div>
 

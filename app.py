@@ -24,7 +24,7 @@ login_manager.init_app(app)
 @app.route('/')
 def home():
     podcasts = db_interaction.get_podcasts()
-    categorie = ['Tutte', 'Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
+    categorie = ['Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
     if current_user.is_authenticated:
         isactive = True
         userid = current_user.get_id()
@@ -214,7 +214,7 @@ def unfollow_podcast(podcast_id):
 @app.route('/nuovoPodcast')
 @login_required
 def nuovoPodcast():
-    categorie = ['Tutte', 'Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
+    categorie = ['Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
     return render_template('nuovoPodcast.html', categorie=categorie)
 
 @app.route('/nuovoPodcast', methods = ['POST'])
@@ -255,7 +255,7 @@ def modificaPodcast(podcast_id):
     podcast = db_interaction.get_podcast_by_id(podcast_id) 
     if podcast:
         if int(podcast['utente_id']) == int(current_user.get_id()):
-            categorie = ['Tutte', 'Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
+            categorie = ['Cucina', 'Scienza', 'Sport', 'Tecnologia', 'Altro']
             return render_template('modificaPodcast.html', podcast=podcast, categorie=categorie)
         else:
             flash('Non sei il creatore di questo podcast', 'danger')
