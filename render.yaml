@@ -1,0 +1,16 @@
+services:
+  - type: web
+    runtime: python
+    name: ilearn-podcast
+    repo: https://github.com/ziroparallelo/ilearn-podcast
+    branch: main
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: PYTHON_VERSION
+        value: "3.11.1"
