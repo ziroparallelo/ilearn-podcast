@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}{{ categoria }} — ILearn{% endblock %}
+
+{% block hero %}
+<section class="hero-section category-hero category-{{ categoria_slug }}">
+    <div class="hero-content">
+        <div class="category-icon">
+            {% if categoria_slug == 'cucina' %}
+            <i class="bi bi-egg-fried"></i>
+            {% elif categoria_slug == 'scienza' %}
+            <i class="bi bi-rocket-takeoff"></i>
+            {% elif categoria_slug == 'sport' %}
+            <i class="bi bi-trophy"></i>
+            {% elif categoria_slug == 'tecnologia' %}
+            <i class="bi bi-cpu"></i>
+            {% elif categoria_slug == 'altro' %}
+            <i class="bi bi-compass"></i>
+            {% endif %}
+        </div>
+        <h1 class="hero-title"><span class="text-gradient">{{ categoria }}</span></h1>
+        <p class="hero-subtitle">
+            {% if categoria_slug == 'cucina' %}
+            Ricette, tradizioni culinarie e segreti degli chef. Scopri il gusto dell'Italia e del mondo.
+            {% elif categoria_slug == 'scienza' %}
+            Dalle stelle ai laboratori: esplora le frontiere della conoscenza umana.
+            {% elif categoria_slug == 'sport' %}
+            Adrenalina, competizione e storie di atleti straordinari. Vivi lo sport a 360 gradi.
+            {% elif categoria_slug == 'tecnologia' %}
+            Innovazione, digitale e futuro. Resta al passo con il mondo tech che evolve ogni giorno.
+            {% elif categoria_slug == 'altro' %}
+            Filosofia, viaggi, cultura e tutto cio' che non rientra nelle categorie classiche.
+            {% endif %}
+        </p>
+        <a href="{{ url_for('home') }}" class="btn btn-glass mt-3">
+            <i class="bi bi-arrow-left"></i> Tutte le categorie
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+{% if podcasts %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 py-4">
+    {% for podcast in podcasts %}
+    <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <article class="glass-card">
+            <div class="card-img-wrapper">
+                <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">
+                    <img class="card-img-top"
+                         src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione) }}"
+                         alt="Immagine del podcast {{ podcast.Titolo }}">
+                </a>
+            </div>
+            <div class="card-body">
+                <span class="badge-category mb-2">{{ podcast.categoria }}</span>
+                <h5 class="card-title">
+                    <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">{{ podcast.Titolo }}</a>
+                </h5>
+                <p class="card-author"><i class="bi bi-person"></i> {{ podcast.username }}</p>
+                <p class="card-text">{{ podcast.Descrizione[:120] }}{% if podcast.Descrizione|length > 120 %}...{% endif %}</p>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5" data-aos="fade-up">
+    <i class="bi bi-broadcast" style="font-size: 3rem; color: var(--text-muted);"></i>
+    <h4 class="mt-3" style="color: var(--text-secondary);">Nessun podcast in questa categoria.</h4>
+    <a href="{{ url_for('home') }}" class="btn btn-gradient mt-3"><i class="bi bi-house-door"></i> Torna alla Home</a>
+</div>
+{% endif %}
+
+<div class="pb-5"></div>
+{% endblock %}

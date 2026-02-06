@@ -19,7 +19,7 @@
 <div class="pill-filter-container" data-aos="fade-up">
     <a href="#" class="pill-filter active" data-cat="tutte">Tutte</a>
     {% for categoria in categorie %}
-    <a href="#" class="pill-filter" data-cat="{{ categoria.lower() }}">{{ categoria }}</a>
+    <a href="{{ url_for('categoria', nome_categoria=categoria.lower()) }}" class="pill-filter" data-cat="{{ categoria.lower() }}">{{ categoria }}</a>
     {% endfor %}
 </div>
 

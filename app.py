@@ -34,6 +34,24 @@ def home():
         isactive = False
         return render_template('home.html', podcasts=podcasts, categorie=categorie, isactive=isactive)
 
+@app.route('/categoria/<nome_categoria>')
+def categoria(nome_categoria):
+    categorie_valide = {'cucina': 'Cucina', 'scienza': 'Scienza', 'sport': 'Sport', 'tecnologia': 'Tecnologia', 'altro': 'Altro'}
+    if nome_categoria.lower() not in categorie_valide:
+        return render_template('errori.html', titolo='404', testo='Categoria non trovata.'), 404
+
+    nome_display = categorie_valide[nome_categoria.lower()]
+    podcasts = db_interaction.get_podcasts_by_categoria(nome_categoria.lower())
+
+    if current_user.is_authenticated:
+        isactive = True
+        userid = current_user.get_id()
+        user = db_interaction.get_user_by_id(userid)
+        return render_template('categoria.html', podcasts=podcasts, user=user, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower())
+    else:
+        isactive = False
+        return render_template('categoria.html', podcasts=podcasts, isactive=isactive, categoria=nome_display, categoria_slug=nome_categoria.lower())
+
 @app.route('/profilo/<int:user_id>')
 @login_required
 def profilo(user_id):

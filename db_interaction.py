@@ -160,6 +160,20 @@ def get_podcasts():
 
     return podcasts
 
+def get_podcasts_by_categoria(categoria):
+    conn = sqlite3.connect('db/podcast.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    sql = 'SELECT * FROM PODCAST, UTENTI WHERE PODCAST.utente_id = UTENTI.ID AND PODCAST.Categoria = ?'
+    cursor.execute(sql, (categoria,))
+    podcasts = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return podcasts
+
 def get_podcast_by_id(podcast_id):
     conn = sqlite3.connect('db/podcast.db')
     conn.row_factory = sqlite3.Row

@@ -5,26 +5,19 @@ const cards = document.querySelectorAll('.card-grid .col');
 
 pillFilters.forEach(pill => {
     pill.addEventListener('click', e => {
-        e.preventDefault();
-
-        // Update active state
-        pillFilters.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-
         const filtro = pill.dataset.cat;
 
-        cards.forEach(card => {
-            const article = card.querySelector('article');
-            if (!article) return;
-            const categoria = article.dataset.categoria;
+        // "Tutte" filter works locally, category pills navigate to dedicated page
+        if (filtro === 'tutte') {
+            e.preventDefault();
+            pillFilters.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
 
-            if (filtro === 'tutte' || categoria === filtro) {
+            cards.forEach(card => {
                 card.classList.remove('hiding');
                 setTimeout(() => card.classList.remove('hide'), 10);
-            } else {
-                card.classList.add('hiding');
-                setTimeout(() => card.classList.add('hide'), 300);
-            }
-        });
+            });
+        }
+        // Other categories: let the link navigate to /categoria/<nome>
     });
 });
