@@ -158,7 +158,7 @@ def signup_post():
         else:
             new_user = {
                 "email": email,
-                "password": generate_password_hash(password, method='sha256'),
+                "password": generate_password_hash(password, method='pbkdf2:sha256'),
                 "type": type,
                 "username": username
             }
