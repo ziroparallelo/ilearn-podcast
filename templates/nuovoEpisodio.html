@@ -5,7 +5,7 @@
 {% block content %}
 <div class="form-glass form-wide" data-aos="fade-up">
     <h2 class="form-title"><i class="bi bi-mic"></i> <span class="text-gradient">Nuovo Episodio</span></h2>
-    <form action="/nuovoEpisodio/podcast_id" method="POST" enctype="multipart/form-data">
+    <form action="/nuovoEpisodio/{{ podcast_id }}" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Titolo episodio</label>
             <input type="text" class="form-control" name="title" required minlength="3" maxlength="30" placeholder="Titolo dell'episodio">
@@ -20,6 +20,11 @@
             <label for="formFileSm" class="form-label">File audio</label>
             <input class="form-control" id="formFileSm" type="file" name="fileaudio" accept=".mp3,.wav" required>
             <div class="form-text">.mp3 o .wav</div>
+        </div>
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tag</label>
+            <input type="text" class="form-control" name="tags" placeholder="es: tecnologia, python, tutorial">
+            <div class="form-text">Separati da virgola (opzionale)</div>
         </div>
         <input type="hidden" name="podcast_id" value="{{ podcast_id }}">
         <div class="d-grid">

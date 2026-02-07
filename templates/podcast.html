@@ -2,6 +2,7 @@
 
 {% block js %}
 <script defer src="{{ url_for('static', filename='podcast.js') }}"></script>
+<script defer src="{{ url_for('static', filename='rating.js') }}"></script>
 {% endblock %}
 
 {% block title %}{{ podcast.Titolo }}{% endblock %}
@@ -17,9 +18,38 @@
                      alt="Immagine del podcast {{ podcast.Titolo }}">
             </div>
             <div class="col-md podcast-hero-info">
-                <span class="badge-category mb-2">{{ podcast.categoria }}</span>
+                <span class="badge-category mb-2">{{ podcast.Categoria }}</span>
                 <h1>{{ podcast.Titolo }}</h1>
-                <p class="podcast-author"><i class="bi bi-person"></i> di <em>{{ podcast.username }}</em></p>
+                <p class="podcast-author"><i class="bi bi-person"></i> di <em>{{ podcast.Username }}</em></p>
+
+                <!-- Star Rating Display -->
+                {% if rating_info and rating_info.totale > 0 %}
+                <div class="star-rating-mini mb-2">
+                    {% for i in range(1, 6) %}
+                    <i class="bi bi-star{% if i <= rating_info.media|round|int %}-fill{% elif i - 0.5 <= rating_info.media %}-half{% endif %} star-gold"></i>
+                    {% endfor %}
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">{{ rating_info.media }} ({{ rating_info.totale }} vot{{ 'o' if rating_info.totale == 1 else 'i' }})</span>
+                </div>
+                {% endif %}
+
+                <!-- Interactive Rating Form -->
+                {% if isactive and user.ID != podcast.utente_id %}
+                <form action="{{ url_for('valuta_podcast', podcast_id=podcast.podcast_id) }}" method="POST" class="star-rating-form mb-2">
+                    <div class="star-interactive" data-current="{{ user_rating|default(0) }}">
+                        {% for i in range(1, 6) %}
+                        <button type="submit" name="voto" value="{{ i }}" class="star-btn" title="{{ i }} stell{{ 'a' if i == 1 else 'e' }}">
+                            <i class="bi bi-star{% if user_rating is defined and i <= user_rating %}-fill{% endif %}" data-star="{{ i }}"></i>
+                        </button>
+                        {% endfor %}
+                    </div>
+                    {% if user_rating is defined and user_rating > 0 %}
+                    <small style="color: var(--text-muted);">Il tuo voto: {{ user_rating }}/5</small>
+                    {% else %}
+                    <small style="color: var(--text-muted);">Valuta questo podcast</small>
+                    {% endif %}
+                </form>
+                {% endif %}
+
                 <p class="podcast-description">{{ podcast.Descrizione }}</p>
 
                 <div class="d-flex flex-wrap gap-2 mt-3">
@@ -76,24 +106,60 @@
                         {{ episodio.Titolo }}
                     </a>
                 </div>
-                <div class="episode-date"><i class="bi bi-calendar3"></i> {{ episodio.DataCreazione }}</div>
+                <div class="episode-date">
+                    <i class="bi bi-calendar3"></i> {{ episodio.DataCreazione }}
+                    {% if episodio.Durata %}
+                    <span class="ms-2"><i class="bi bi-clock"></i> {{ format_durata(episodio.Durata) }}</span>
+                    {% endif %}
+                </div>
                 <p class="episode-desc">{{ episodio.Descrizione }}</p>
+
+                {% if episodi_tags.get(episodio.episodio_id) %}
+                <div class="d-flex flex-wrap gap-1 mt-1">
+                    {% for tag in episodi_tags[episodio.episodio_id] %}
+                    <a href="{{ url_for('tag_page', nome_tag=tag.Nome) }}" class="badge-tag">{{ tag.Nome }}</a>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="col-md-4 text-end">
-                {% if isactive and user.Tipo == 1 and podcast.utente_id == user.ID %}
-                <a href="{{ url_for('modificaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass btn-sm me-1">
-                    <i class="bi bi-pencil"></i>
-                </a>
-                <a href="{{ url_for('cancellaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass btn-sm" style="border-color: #ef4444; color: #ef4444;">
-                    <i class="bi bi-trash"></i>
-                </a>
+                {% if isactive %}
+                    {% if episodio.episodio_id in id_episodi_salvati %}
+                    <a href="{{ url_for('rimuovi_salvato', episodio_id=episodio.episodio_id) }}" class="btn btn-glass btn-sm me-1" title="Rimuovi dai salvati">
+                        <i class="bi bi-bookmark-fill" style="color: var(--accent-primary);"></i>
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('salva_episodio', episodio_id=episodio.episodio_id) }}" class="btn btn-glass btn-sm me-1" title="Salva episodio">
+                        <i class="bi bi-bookmark"></i>
+                    </a>
+                    {% endif %}
+
+                    {% if user.Tipo == 1 and podcast.utente_id == user.ID %}
+                    <a href="{{ url_for('modificaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass btn-sm me-1">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <a href="{{ url_for('cancellaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass btn-sm" style="border-color: #ef4444; color: #ef4444;">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
 
         {% if isactive %}
+        <!-- Progress Bar -->
+        {% if progressi is defined and episodio.episodio_id in progressi %}
+        {% set prog = progressi[episodio.episodio_id] %}
+        {% if prog.durata > 0 %}
+        <div class="progress-bar-wrapper mt-2">
+            <div class="progress-bar-fill" style="width: {{ (prog.posizione / prog.durata * 100)|round(1) }}%"></div>
+        </div>
+        {% endif %}
+        {% endif %}
+
         <div class="audio-player-wrapper mt-2">
-            <audio src="{{ url_for('static', filename='episodio' + episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione) }}" controls></audio>
+            <audio src="{{ url_for('static', filename='episodio' + episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione) }}"
+                   controls data-episodio-id="{{ episodio.episodio_id }}"></audio>
         </div>
 
         <div class="d-flex align-items-center gap-2 mt-3">

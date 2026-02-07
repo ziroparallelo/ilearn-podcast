@@ -7,7 +7,12 @@
     <!-- Episode Header -->
     <div class="text-center mb-4" data-aos="fade-up">
         <h2 class="text-gradient" style="font-weight: 800;">{{ episodio.Titolo }}</h2>
-        <p class="episode-date mt-2"><i class="bi bi-calendar3"></i> {{ episodio.DataCreazione }}</p>
+        <p class="episode-date mt-2">
+            <i class="bi bi-calendar3"></i> {{ episodio.DataCreazione }}
+            {% if episodio.Durata %}
+            <span class="ms-2"><i class="bi bi-clock"></i> {{ format_durata(episodio.Durata) }}</span>
+            {% endif %}
+        </p>
     </div>
 
     <!-- Episode Description & Actions -->
@@ -15,26 +20,47 @@
         <div class="col-lg-8">
             <p style="color: var(--text-secondary); text-align: center; font-size: 1.05rem;">{{ episodio.Descrizione }}</p>
 
-            {% if isactive and user.Tipo == 1 and podcast.utente_id == user.ID %}
-            <div class="text-center mt-3 mb-3">
-                <a href="{{ url_for('modificaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass me-2">
-                    <i class="bi bi-pencil"></i> Modifica
-                </a>
-                <a href="{{ url_for('cancellaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass" style="border-color: #ef4444; color: #ef4444;">
-                    <i class="bi bi-trash"></i> Elimina
-                </a>
-            </div>
-            {% elif not isactive %}
-            <div class="text-center mt-3 mb-3">
-                <a href="{{ url_for('login') }}" class="btn btn-gradient">
-                    <i class="bi bi-box-arrow-in-right"></i> Accedi per più funzionalità
-                </a>
+            <!-- Tags -->
+            {% if tags %}
+            <div class="d-flex flex-wrap gap-1 justify-content-center mt-2 mb-3">
+                {% for tag in tags %}
+                <a href="{{ url_for('tag_page', nome_tag=tag.Nome) }}" class="badge-tag">{{ tag.Nome }}</a>
+                {% endfor %}
             </div>
             {% endif %}
 
+            <div class="text-center mt-3 mb-3">
+                {% if isactive %}
+                    <!-- Bookmark Button -->
+                    {% if id_episodi_salvati is defined and episodio.episodio_id in id_episodi_salvati %}
+                    <a href="{{ url_for('rimuovi_salvato', episodio_id=episodio.episodio_id) }}" class="btn btn-glass me-2">
+                        <i class="bi bi-bookmark-fill" style="color: var(--accent-primary);"></i> Salvato
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('salva_episodio', episodio_id=episodio.episodio_id) }}" class="btn btn-glass me-2">
+                        <i class="bi bi-bookmark"></i> Salva
+                    </a>
+                    {% endif %}
+
+                    {% if user.Tipo == 1 and podcast.utente_id == user.ID %}
+                    <a href="{{ url_for('modificaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass me-2">
+                        <i class="bi bi-pencil"></i> Modifica
+                    </a>
+                    <a href="{{ url_for('cancellaEpisodio', titolo=episodio.Titolo) }}" class="btn btn-glass" style="border-color: #ef4444; color: #ef4444;">
+                        <i class="bi bi-trash"></i> Elimina
+                    </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-gradient">
+                        <i class="bi bi-box-arrow-in-right"></i> Accedi per più funzionalità
+                    </a>
+                {% endif %}
+            </div>
+
             <!-- Audio Player -->
             <div class="audio-player-wrapper" data-aos="fade-up" data-aos-delay="200" style="background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));">
-                <audio src="{{ url_for('static', filename='episodio' + episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione) }}" controls></audio>
+                <audio src="{{ url_for('static', filename='episodio' + episodio.episodio_id|string + 'podcast' + episodio.podcast_id|string + episodio.Estensione) }}"
+                       controls data-episodio-id="{{ episodio.episodio_id }}"></audio>
             </div>
         </div>
     </div>

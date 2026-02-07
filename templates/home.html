@@ -15,6 +15,78 @@
 {% endblock %}
 
 {% block content %}
+<!-- Trending Section -->
+{% if trending %}
+<h5 class="section-heading mt-4" data-aos="fade-up"><i class="bi bi-fire"></i> In tendenza</h5>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+    {% for podcast in trending %}
+    <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <article class="glass-card" style="position: relative;">
+            <div class="trending-badge">#{{ loop.index }}</div>
+            <div class="card-img-wrapper">
+                <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">
+                    <img class="card-img-top"
+                         src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione) }}"
+                         alt="{{ podcast.Titolo }}">
+                </a>
+            </div>
+            <div class="card-body">
+                <span class="badge-category mb-2">{{ podcast.Categoria }}</span>
+                <h5 class="card-title">
+                    <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">{{ podcast.Titolo }}</a>
+                </h5>
+                <p class="card-author"><i class="bi bi-person"></i> {{ podcast.Username }}</p>
+                <div class="card-followers">
+                    <i class="bi bi-people-fill"></i> {{ podcast.follower_count }} follower
+                </div>
+                {% if ratings.get(podcast.podcast_id) and ratings[podcast.podcast_id].media > 0 %}
+                <div class="star-rating-mini mt-1">
+                    {% for i in range(1, 6) %}
+                    <i class="bi bi-star{% if i <= ratings[podcast.podcast_id].media|round|int %}-fill{% elif i - 0.5 <= ratings[podcast.podcast_id].media %}-half{% endif %} star-gold"></i>
+                    {% endfor %}
+                    <small style="color: var(--text-muted);">{{ ratings[podcast.podcast_id].media }}</small>
+                </div>
+                {% endif %}
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- Top Rated Section -->
+{% if top_rated %}
+<h5 class="section-heading" data-aos="fade-up"><i class="bi bi-trophy-fill" style="color: #f59e0b;"></i> I più apprezzati</h5>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+    {% for podcast in top_rated %}
+    <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <article class="glass-card">
+            <div class="card-img-wrapper">
+                <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">
+                    <img class="card-img-top"
+                         src="{{ url_for('static', filename='podcast' + podcast.podcast_id|string + podcast.Estensione) }}"
+                         alt="{{ podcast.Titolo }}">
+                </a>
+            </div>
+            <div class="card-body">
+                <span class="badge-category mb-2">{{ podcast.Categoria }}</span>
+                <h5 class="card-title">
+                    <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">{{ podcast.Titolo }}</a>
+                </h5>
+                <p class="card-author"><i class="bi bi-person"></i> {{ podcast.Username }}</p>
+                <div class="star-rating-mini mt-1">
+                    {% for i in range(1, 6) %}
+                    <i class="bi bi-star{% if i <= podcast.media_voto|round|int %}-fill{% elif i - 0.5 <= podcast.media_voto %}-half{% endif %} star-gold"></i>
+                    {% endfor %}
+                    <small style="color: var(--text-muted);">{{ podcast.media_voto|round(1) }} ({{ podcast.num_voti }})</small>
+                </div>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <!-- Pill Filters -->
 <div class="pill-filter-container" data-aos="fade-up">
     <a href="#" class="pill-filter cat-pill active" data-cat="tutte">
@@ -36,7 +108,7 @@
 
 <!-- Podcast Grid -->
 {% if podcasts %}
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 card-grid pb-5">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 card-grid pb-4">
     {% for podcast in podcasts %}
     <div class="col" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
         <article class="glass-card" data-categoria="{{ podcast.Categoria }}">
@@ -48,17 +120,45 @@
                 </a>
             </div>
             <div class="card-body">
-                <span class="badge-category mb-2">{{ podcast.categoria }}</span>
+                <span class="badge-category mb-2">{{ podcast.Categoria }}</span>
                 <h5 class="card-title">
                     <a href="{{ url_for('podcast', podcast_id=podcast.podcast_id) }}">{{ podcast.Titolo }}</a>
                 </h5>
-                <p class="card-author"><i class="bi bi-person"></i> {{ podcast.username }}</p>
+                <p class="card-author"><i class="bi bi-person"></i> {{ podcast.Username }}</p>
+                {% if ratings.get(podcast.podcast_id) and ratings[podcast.podcast_id].media > 0 %}
+                <div class="star-rating-mini mt-1">
+                    {% for i in range(1, 6) %}
+                    <i class="bi bi-star{% if i <= ratings[podcast.podcast_id].media|round|int %}-fill{% elif i - 0.5 <= ratings[podcast.podcast_id].media %}-half{% endif %} star-gold"></i>
+                    {% endfor %}
+                    <small style="color: var(--text-muted);">{{ ratings[podcast.podcast_id].media }}</small>
+                </div>
+                {% endif %}
                 <p class="card-text">{{ podcast.Descrizione[:100] }}{% if podcast.Descrizione|length > 100 %}...{% endif %}</p>
             </div>
         </article>
     </div>
     {% endfor %}
 </div>
+
+<!-- Pagination -->
+{% if total_pages > 1 %}
+<nav class="d-flex justify-content-center pb-5">
+    <ul class="pagination pagination-dark">
+        {% if page > 1 %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('home', page=page-1) }}">&laquo;</a></li>
+        {% endif %}
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item{% if p == page %} active{% endif %}">
+            <a class="page-link" href="{{ url_for('home', page=p) }}">{{ p }}</a>
+        </li>
+        {% endfor %}
+        {% if page < total_pages %}
+        <li class="page-item"><a class="page-link" href="{{ url_for('home', page=page+1) }}">&raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
 {% else %}
 <div class="text-center py-5" data-aos="fade-up">
     <i class="bi bi-broadcast" style="font-size: 3rem; color: var(--text-muted);"></i>

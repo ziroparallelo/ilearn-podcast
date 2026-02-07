@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Cerca — ILearn{% endblock %}
+
+{% block content %}
+<div class="py-4">
+    <h2 class="text-gradient mb-4" style="font-weight: 800;" data-aos="fade-up">
+        <i class="bi bi-search"></i> Cerca
+    </h2>
+
+    <!-- Search Form -->
+    <form action="{{ url_for('cerca') }}" method="GET" class="mb-4" data-aos="fade-up">
+        <div class="searchbar-wrapper" style="max-width: 700px; margin: 0 auto;">
+            <div class="input-group">
+                <input class="form-control" type="text" name="q" value="{{ query }}" placeholder="Cerca podcast, episodi, tag..." autofocus>
+                <button class="btn btn-gradient" type="submit"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+            <a href="{{ url_for('cerca', q=query, filtro='tutto', categoria=categoria_sel) }}"
+               class="pill-filter{% if filtro == 'tutto' %} active{% endif %}">Tutto</a>
+            <a href="{{ url_for('cerca', q=query, filtro='podcast', categoria=categoria_sel) }}"
+               class="pill-filter{% if filtro == 'podcast' %} active{% endif %}">Podcast</a>
+            <a href="{{ url_for('cerca', q=query, filtro='episodi', categoria=categoria_sel) }}"
+               class="pill-filter{% if filtro == 'episodi' %} active{% endif %}">Episodi</a>
+            <a href="{{ url_for('cerca', q=query, filtro='tag', categoria=categoria_sel) }}"
+               class="pill-filter{% if filtro == 'tag' %} active{% endif %}">Tag</a>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="d-flex flex-wrap gap-2 justify-content-center mt-2">
+            <a href="{{ url_for('cerca', q=query, filtro=filtro) }}"
+               class="pill-filter{% if not categoria_sel %} active{% endif %}" style="font-size: 0.8rem;">Tutte</a>
+            {% for cat in categorie %}
+            <a href="{{ url_for('cerca', q=query, filtro=filtro, categoria=cat.lower()) }}"
+               class="pill-filter cat-pill-{{ cat.lower() }}{% if categoria_sel == cat.lower() %} active{% endif %}" style="font-size: 0.8rem;">{{ cat }}</a>
+            {% endfor %}
+        </div>
+    </form>
+
+    <!-- Results -->
+    {% if query %}
+    <p style="color: var(--text-muted);" class="mb-3">{{ results|length }} risultat{{ 'o' if results|length == 1 else 'i' }} per "{{ query }}"</p>
+
+        {% if results %}
+        <div class="search-results">
+            {% for r in results %}
+            <div class="search-result-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
+                <div class="d-flex align-items-start gap-3">
+                    <span class="search-type-badge search-type-{{ r.tipo }}">
+                        {% if r.tipo == 'podcast' %}<i class="bi bi-broadcast"></i>
+                        {% elif r.tipo == 'episodio' %}<i class="bi bi-mic"></i>
+                        {% elif r.tipo == 'tag' %}<i class="bi bi-tag"></i>
+                        {% endif %}
+                        {{ r.tipo }}
+                    </span>
+                    <div class="flex-grow-1">
+                        {% if r.tipo == 'podcast' %}
+                        <a href="{{ url_for('podcast', podcast_id=r.id) }}" class="search-result-title">{{ r.Titolo }}</a>
+                        {% elif r.tipo == 'episodio' %}
+                        <a href="{{ url_for('singoloEpisodio', episodio_id=r.id) }}" class="search-result-title">{{ r.Titolo }}</a>
+                        {% elif r.tipo == 'tag' %}
+                        <a href="{{ url_for('tag_page', nome_tag=r.Titolo) }}" class="search-result-title badge-tag" style="font-size: 1rem;">{{ r.Titolo }}</a>
+                        {% endif %}
+                        {% if r.Descrizione %}
+                        <p class="search-result-desc">{{ r.Descrizione[:150] }}{% if r.Descrizione|length > 150 %}...{% endif %}</p>
+                        {% endif %}
+                        {% if r.Username %}
+                        <small style="color: var(--text-muted);"><i class="bi bi-person"></i> {{ r.Username }}</small>
+                        {% endif %}
+                        {% if r.Categoria %}
+                        <span class="badge-category ms-2" style="font-size: 0.65rem;">{{ r.Categoria }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5" data-aos="fade-up">
+            <i class="bi bi-search" style="font-size: 3rem; color: var(--text-muted);"></i>
+            <h4 class="mt-3" style="color: var(--text-secondary);">Nessun risultato trovato</h4>
+            <p style="color: var(--text-muted);">Prova con termini diversi</p>
+        </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
